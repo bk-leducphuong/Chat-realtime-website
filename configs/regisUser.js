@@ -1,4 +1,4 @@
-import connection from './connectDB.js';
+// import connection from './connectDB.js';
 import { NotFoundError } from '../services/utility.js';
 
 // constructor

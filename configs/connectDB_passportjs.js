@@ -1,4 +1,4 @@
-import connection from './connectDB.js';
+// import connection from './connectDB.js';
 
 export default async function checkingUser(profileUser) {
     var userID = await connection.execute('SELECT * FROM information_of_users WHERE userID = ?', [profileUser.id]);

@@ -2,20 +2,22 @@ import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 dotenv.config;
 import util from 'util';
-import * as redis from 'redis';  // Dòng này đc thêm vào để fix lỗi TypeError: Cannot read properties of undefined (reading 'createClient')
-const client = redis.createClient({
-    host: process.env.REDISHOST,
-    port: process.env.REDISPORT,
-    password: process.env.REDISPASSWORD,
-    url: process.env.REDIS_URL,
-    legacyMode: true
-}); //Thêm lagacyMode để tránh bug là ClientClosedError: The client is closed
 
-client
-    .connect()
-    .catch((err) => {
-        console.log('err happened' + err);
-    });
+/****************** Redis connection ***********************/
+// import { createClient } from 'redis';
+
+// /* Connect to redis cloud */
+// const client = createClient({
+//     password: process.env.REDIS_PASSWORD,
+//     socket: {
+//         host: process.env.REDIS_HOST,
+//         port: process.env.REDIS_PORT
+//     },
+//     // legacyMode: true
+// });
+
+// client.on('error', err => console.log('Redis Client Error', err))
+// await client.connect();
 
 
 export let loggedIn = async function (req, res, next) {

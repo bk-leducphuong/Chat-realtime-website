@@ -1,27 +1,11 @@
-import connection from '../configs/connectDB.js';
+// import connection from '../configs/connectDB.js';
 import jwt from 'jsonwebtoken';
 import util from 'util';
 import fs from 'fs';
 import { v2 as cloudinary } from 'cloudinary';
 
-/****************** Redis connection ***********************/
-import { createClient } from 'redis';
-
-/* Connect to redis cloud */
-const client = createClient({
-    password: process.env.REDISPASSWORD,
-    socket: {
-        host: process.env.REDISHOST,
-        port: process.env.REDISPORT
-    },
-    legacyMode: true
-});
-
-client.on('error', err => console.log('Redis Client Error', err))
-await client.connect();
-
 export let getStartPage = async (req, res) => {
-    return res.render('startPage.ejs');
+    res.render('startPage.ejs');
 }
 
 export let redirectToHome = (req, res) => {

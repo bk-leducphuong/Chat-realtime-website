@@ -1,4 +1,4 @@
-import User from '../configs/regisUser.js';
+// import User from '../configs/regisUser.js';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import dotenv from 'dotenv';
@@ -6,24 +6,24 @@ dotenv.config();
 import { NotFoundError } from "../services/utility.js";
 import { sendEmailVerify } from '../services/email.js';
 import { v4 as uuidv4 } from 'uuid';
-import checkingUser from '../configs/connectDB_passportjs.js';
-import connection from '../configs/connectDB.js';
+// import checkingUser from '../configs/connectDB_passportjs.js';
+// import connection from '../configs/connectDB.js';
 
 /****************** Redis connection ***********************/
-import { createClient } from 'redis';
+// import { createClient } from 'redis';
 
-/* Connect to redis cloud */
-const client = createClient({
-    password: process.env.REDISPASSWORD,
-    socket: {
-        host: process.env.REDISHOST,
-        port: process.env.REDISPORT
-    },
-    legacyMode: true
-});
+// /* Connect to redis cloud */
+// const client = createClient({
+//     password: process.env.REDIS_PASSWORD,
+//     socket: {
+//         host: process.env.REDIS_HOST,
+//         port: process.env.REDIS_PORT
+//     },
+//     // legacyMode: true
+// });
 
-client.on('error', err => console.log('Redis Client Error', err))
-await client.connect();
+// client.on('error', err => console.log('Redis Client Error', err))
+// await client.connect();
 
 // Register a new User
 export let register = async (req, res) => {

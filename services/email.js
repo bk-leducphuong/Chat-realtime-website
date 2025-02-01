@@ -4,25 +4,27 @@ import fs from 'fs';
 import ejs from 'ejs';
 import util from 'util';
 import bcrypt from 'bcrypt';
-import User from '../configs/regisUser.js';
+// import User from '../configs/regisUser.js';
 dotenv.config();
-import * as redis from 'redis'; // Dòng này đc thêm vào để fix lỗi TypeError: Cannot read properties of undefined (reading 'createClient')
 import { error } from 'console';
 import { triggerAsyncId } from 'async_hooks';
 
-const client = redis.createClient({
-  host: process.env.REDISHOST,
-  port: process.env.REDISPORT,
-  password: process.env.REDISPASSWORD,
-  url: process.env.REDIS_URL,
-  legacyMode: true
-}); //Thêm lagacyMode để tránh bug là ClientClosedError: The client is closed
+/****************** Redis connection ***********************/
+// import { createClient } from 'redis';
 
-client
-  .connect()
-  .catch((err) => {
-    console.log('err happened' + err);
-  });
+// /* Connect to redis cloud */
+// const client = createClient({
+//     password: process.env.REDIS_PASSWORD,
+//     socket: {
+//         host: process.env.REDIS_HOST,
+//         port: process.env.REDIS_PORT
+//     },
+//     // legacyMode: true
+// });
+
+// client.on('error', err => console.log('Redis Client Error', err))
+// await client.connect();
+
 // let emailTemplate = fs.readFileSync(process.env.EMAIL_TEMPLATE_PATH, 'utf-8'); // Read your EJS template file: Use the fs module to read your EJS template file.
 // let compiledTemplate = ejs.compile(emailTemplate); // Compile your EJS template: Use the compile method of the EJS module to compile your template.
 
