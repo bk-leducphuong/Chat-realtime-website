@@ -1,7 +1,6 @@
 import dotenv from 'dotenv';
 import util from 'util';
 import jwt from 'jsonwebtoken';
-import redisClient from '../configs/connectRedis.js';
 import dbConnection from '../configs/connectDB.js';
 
 dotenv.config();

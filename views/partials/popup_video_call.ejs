@@ -1,0 +1,134 @@
+<div class="bg-modal" style="display: none;">
+  <div class="modal-content-popup">
+    <a class="close-popup-btn"><img class="close-btn" src="https://cdn-icons-png.flaticon.com/512/2976/2976286.png"
+        alt=""></a>
+    <img src="https://i.pinimg.com/originals/8b/2a/1e/8b2a1e1284b75af8cb0d3489ce828fbd.jpg" class="avatar-popup" alt="">
+    <div class="text"></div>
+    <div class="child-text">Chấp nhận để đến cuộc gọi...</div>
+    <div class="call-btn">
+      <a class="call-off"> <img src="https://cdn-icons-png.flaticon.com/512/3616/3616215.png" alt=""
+          class="call-off-btn"></a>
+      <a class="call-on"> <img src="https://cdn-icons-png.flaticon.com/512/5585/5585856.png" alt=""
+          class="call-on-btn"></a>
+    </div>
+
+  </div>
+</div>
+<style>
+  .bg-modal {
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.3);
+    position: absolute;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9998;
+  }
+
+  .modal-content-popup {
+    width: 380px;
+    height: 300px;
+    background-color: white;
+    border-radius: 20px;
+    text-align: center;
+    position: relative;
+    animation: shake 0.9s;
+    animation-iteration-count: infinite;
+  }
+
+  .avatar-popup {
+    padding: 20px;
+    width: 120px;
+  }
+
+  .close-btn {
+    position: absolute;
+    top: 15px;
+    right: 14px;
+    cursor: pointer;
+    width: 15px
+  }
+
+  .call-btn {
+    position: absolute;
+    right: 60px;
+    left: 60px;
+    bottom: 25px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .text {
+    font-size: 24px
+  }
+
+  .child-text {
+    padding-top: 5px;
+  }
+
+  .call-on-btn,
+  .call-off-btn {
+    cursor: pointer;
+    width: 60px;
+    animation: shake 0.7s;
+    animation-iteration-count: infinite;
+  }
+
+  @keyframes shake {
+    0% {
+      transform: translate(1px, 1px) rotate(0deg);
+    }
+
+    10% {
+      transform: translate(-1px, -2px) rotate(-1deg);
+    }
+
+    20% {
+      transform: translate(-3px, 0px) rotate(1deg);
+    }
+
+    30% {
+      transform: translate(3px, 2px) rotate(0deg);
+    }
+
+    40% {
+      transform: translate(1px, -1px) rotate(1deg);
+    }
+
+    50% {
+      transform: translate(-1px, 2px) rotate(-1deg);
+    }
+
+    60% {
+      transform: translate(-3px, 1px) rotate(0deg);
+    }
+
+    70% {
+      transform: translate(3px, 1px) rotate(-1deg);
+    }
+
+    80% {
+      transform: translate(-1px, -1px) rotate(1deg);
+    }
+
+    90% {
+      transform: translate(1px, 2px) rotate(0deg);
+    }
+
+    100% {
+      transform: translate(1px, -2px) rotate(-1deg);
+    }
+  }
+</style>
+<script>
+  const popup = document.querySelector('.bg-modal');
+  const call_off_btn = document.querySelector('.call-off');
+  const call_on_btn = document.querySelector('.call-on');
+  const text = document.querySelector('.text');
+  const close_popup_btn = document.querySelector('.close-popup-btn');
+  close_popup_btn.addEventListener('click', event => {
+    popup.style.display = "none";
+  })
+</script>

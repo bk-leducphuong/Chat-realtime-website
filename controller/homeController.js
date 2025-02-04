@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken';
 import util from 'util';
 import fs from 'fs';
 import { v2 as cloudinary } from 'cloudinary';
+import dbConnection from '../configs/connectDB.js';
 
 export let getStartPage = async (req, res) => {
     res.render('WelcomePage.ejs');
@@ -13,7 +14,7 @@ export let redirectToHome = (req, res) => {
 }
 
 export let getHomePage = (req, res) => {
-    return res.render('home.ejs', { userID: req.user.userId });
+    return res.render('HomePage.ejs', { userId: req.user.userId });
 }
 
 export let getProfileUser = async (req, res) => {
@@ -62,26 +63,20 @@ export let changeAvatar = async (req, res) => {
 }
 
 export let getChatPage = async (req, res) => {
-    const Rtoken = req.cookies.refresh_token;
-    const RPayload = jwt.verify(Rtoken, process.env.TOKEN_SECRET);
-
-    const hgetAsync = util.promisify(client.hGet).bind(client);
-    const listFriend = await hgetAsync(RPayload.id, "List_friend");
-    const friend = JSON.parse(listFriend);
-    for (let i = 0; i < friend.length; i++) {
-        let status = await hgetAsync(friend[i].userID, "status");
-        friend[i].status = status;
+    try {
+        const user = req.user;
+        console.log(user);
+        return res.render('chatPage.ejs', { userId: user.userId, friend: [], username: user.username });
+    }catch(err) {
+        console.log(err);
+        return res.status(500).send('Failed to get chat page');
     }
-
-    const data = await connection.execute('SELECT `username` FROM `information_of_users` WHERE `userID` = ?', [RPayload.id]);
-
-    return res.render('chatPage.ejs', { userID: RPayload.id, friend: friend, username: data[0][0].username });
 }
 
 export let showChatMessage = (req, res) => {
     const roomID = req.params.roomID;
 
-    connection.execute('SELECT * FROM `message` WHERE `room_id` = ?', [roomID]).then(result => {
+    dbConnection.execute('SELECT * FROM `message` WHERE `room_id` = ?', [roomID]).then(result => {
         const message = result[0][0].message;
         return res.send({ message });
     });
@@ -147,7 +142,7 @@ export let editProfile = async (req, res) => {
         const imageId = 'avatar/avatar7_qycgpo.png'
         filename = cloudinary.url(imageId, { width: 315, height: 315, crop: 'fill' });
     }
-    let user_data = await connection.execute('SELECT * FROM `information_of_users` WHERE `userID` = ?', [RPayload.id]);
+    let user_data = await dbConnection.execute('SELECT * FROM `information_of_users` WHERE `userID` = ?', [RPayload.id]);
     if (user_data[0][0]) {
         return res.render('editProfile.ejs', { user: user_data[0][0], filename: filename })
     }
@@ -159,9 +154,9 @@ export let saveProfile = async (req, res) => {
 
     const user = req.body;
 
-    let user_data = await connection.execute('SELECT * FROM `information_of_users` WHERE `userID` = ?', [RPayload.id]);
+    let user_data = await dbConnection.execute('SELECT * FROM `information_of_users` WHERE `userID` = ?', [RPayload.id]);
     if (user_data[0][0]) {
-        await connection.execute('UPDATE information_of_users SET username = ?, email = ?, mobilenumber = ?, gender = ?, address = ?, birthday = ?, link_fb = ?, link_website = ?, link_github = ?, link_insta = ?, link_twitter = ? WHERE userID = ?', [user.username, user.email, user.mobilenumber, user.gender, user.address, user.birthday, user.link_facebook, user.link_website, user.link_github, user.link_instagram, user.link_twitter, RPayload.id])
+        await dbConnection.execute('UPDATE information_of_users SET username = ?, email = ?, mobilenumber = ?, gender = ?, address = ?, birthday = ?, link_fb = ?, link_website = ?, link_github = ?, link_insta = ?, link_twitter = ? WHERE userID = ?', [user.username, user.email, user.mobilenumber, user.gender, user.address, user.birthday, user.link_facebook, user.link_website, user.link_github, user.link_instagram, user.link_twitter, RPayload.id])
     }
     return res.redirect('/profile-user');
 }

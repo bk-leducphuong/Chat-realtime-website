@@ -38,16 +38,16 @@
 <script type="text/javascript">
     const active = document.querySelector("#home");
     active.setAttribute('class', 'nav_link active');
-    const userID = '<%= userID %>';
+    const userId = '<%= userId %>';
     const socket = io();
     // This event is fired by the Socket instance upon connection and reconnection.
     socket.on('connect', () => {
-        socket.emit('user-connected', userID);
+        socket.emit('user-connected', userId);
 
     })
     const callsound = document.querySelector('.callsound');
     socket.on('response-to-call-video', data => {
-        if (data.friendID == userID) {
+        if (data.friendID == userId) {
             popup.style.display = "flex";
             text.textContent = data.caller_name + " đang gọi cho bạn...";
             call_off_btn.addEventListener('click', event => {
@@ -69,7 +69,7 @@
 
     })
     socket.on('response-reject-call-video', data => {
-        if (data.callerID == userID) {
+        if (data.callerID == userId) {
             text_reject_call.textContent = data.reciever_name.trim() + " đã từ chối cuộc gọi của bạn";
             popup_reject_call.style.display = "flex";
             call_back_btn.addEventListener('click', event => {
@@ -83,7 +83,7 @@
     })
 
     socket.on('response-to-close-video-call', data => {
-        if (data == userID) {
+        if (data == userId) {
             popup.style.display = "none";
             popup_reject_call.style.display = "none";
             text_reject_call.textContent = "Cuộc gọi đã kết thúc !";
@@ -95,7 +95,7 @@
     })
 
     socket.on('send-notification-to-friend', data => {
-        if (data.friendid == userID) {
+        if (data.friendid == userId) {
             let message = '';
             if (data.message.includes("http://res.cloudinary.com/dz1k6vz7m/image/upload/v1")) {
                 message = "Hình ảnh"

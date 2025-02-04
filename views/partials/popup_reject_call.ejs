@@ -1,0 +1,66 @@
+<div class="bg-modal-reject-call" style="display: none">
+    <div class="modal-content-reject-call">
+        <a class="close-popup-reject-btn"> <img class="close-btn"
+                src="https://cdn-icons-png.flaticon.com/512/2976/2976286.png"></a>
+        <img src="https://i.pinimg.com/originals/8b/2a/1e/8b2a1e1284b75af8cb0d3489ce828fbd.jpg" class="avatar">
+        <div class="text-reject-call">Cuộc gọi đã kết thúc !</div>
+        <a class="call-back"><img src="https://cdn-icons-png.flaticon.com/512/5585/5585856.png" alt=""
+                class="call-back-btn"></a>
+        <div class="small-text">Gọi lại</div>
+
+    </div>
+</div>
+<style>
+    .bg-modal-reject-call {
+        width: 100vw;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.3);
+        position: absolute;
+        top: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9998;
+    }
+
+    .modal-content-reject-call {
+        width: 380px;
+        height: 300px;
+        background-color: white;
+        border-radius: 20px;
+        text-align: center;
+        position: relative;
+    }
+
+    .avatar {
+        padding: 20px;
+        width: 120px;
+    }
+
+    .close-btn {
+        position: absolute;
+        top: 15px;
+        right: 14px;
+        cursor: pointer;
+        width: 15px
+    }
+
+    .text-reject-call {
+        padding: 10px;
+        font-size: 24px
+    }
+
+    .call-back-btn {
+        cursor: pointer;
+        width: 60px;
+    }
+</style>
+<script>
+    const popup_reject_call = document.querySelector('.bg-modal-reject-call');
+    const call_back_btn = document.querySelector('.call-back');
+    const text_reject_call = document.querySelector('.text-reject-call');
+    const close_popup_reject_btn = document.querySelector('.close-popup-reject-btn');
+    close_popup_reject_btn.addEventListener('click', event => {
+        popup_reject_call.style.display = "none";
+    })
+</script>

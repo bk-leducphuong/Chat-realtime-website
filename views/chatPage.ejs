@@ -38,7 +38,7 @@
                                         <ul class="list-unstyled chat-list mt-2 mb-0" id="list">
                                             <% for(let i=0; i < friend.length; i++) { %>
                                                 <li class="clearfix"
-                                                    onclick="joinChat(this,  '<%= friend[i].userID %>')"
+                                                    onclick="joinChat(this,  '<%= friend[i].userId %>')"
                                                     id="user-inbox">
                                                     <img src="https://bootdey.com/img/Content/avatar/avatar1.png"
                                                         alt="avatar">
@@ -542,9 +542,9 @@
                     <script type="text/javascript">
                         const socket = io();
                         let roomID = '';
-                        const userID = '<%= userID %>';
+                        const userId = '<%= userId %>';
                         const friend = JSON.parse('<%- JSON.stringify(friend) %>');
-                        let friendid = '<%= friend[0].userID %>';
+                        let friendid = '<%= friend[0].userId %>';
                         const username = '<%= username %>';
 
                         const chat_history = document.querySelector('.chat-history');
@@ -581,12 +581,12 @@
                         active.setAttribute('class', 'nav_link active');
                         // This event is fired by the Socket instance upon connection and reconnection.
                         socket.on('connect', () => {
-                            socket.emit('user-connected', userID);
+                            socket.emit('user-connected', userId);
 
                         })
 
                         socket.on('response-to-call-video', data => {
-                            if (data.friendID == userID) {
+                            if (data.friendID == userId) {
                                 popup.style.display = "flex";
                                 text.textContent = data.caller_name + " đang gọi cho bạn...";
                                 call_off_btn.addEventListener('click', event => {
@@ -608,7 +608,7 @@
 
                         })
                         socket.on('response-reject-call-video', data => {
-                            if (data.callerID == userID) {
+                            if (data.callerID == userId) {
                                 text_reject_call.textContent = data.reciever_name.trim() + " đã từ chối cuộc gọi của bạn";
                                 popup_reject_call.style.display = "flex";
                                 call_back_btn.addEventListener('click', event => {
@@ -622,7 +622,7 @@
                         })
 
                         socket.on('response-to-close-video-call', data => {
-                            if (data == userID) {
+                            if (data == userId) {
                                 popup.style.display = "none";
                                 popup_reject_call.style.display = "flex";
                                 setTimeout(() => {
@@ -683,7 +683,7 @@
                                         const message1 = result.message;
                                         for (let i = 0; i < message1.length; i++) {
                                             const message2 = {
-                                                userID: message1[i][0],
+                                                userId: message1[i][0],
                                                 message: message1[i][1]
                                             }
                                             socket.emit('chat-message', message2);
@@ -703,11 +703,11 @@
                             e.setAttribute('class', 'clearfix active');
                             nameFriendChatting.textContent = e.querySelector(".name").textContent;
 
-                            socket.emit('checkID', { userID, friendId });
+                            socket.emit('checkID', { userId, friendId });
 
-                            socket.on('roomID', data => { // data have roomID and userID , friendId
+                            socket.on('roomID', data => { // data have roomID and userId , friendId
                                 roomID = data.room_id;
-                                socket.emit('join', { roomID, userID });
+                                socket.emit('join', { roomID, userId });
 
                                 fetch(`/chat/${roomID}`, {
                                     method: 'GET',
@@ -724,7 +724,7 @@
                                         }
 
                                         for (let i = 0; i < message.length; i++) {
-                                            if (message[i][0] == userID) {
+                                            if (message[i][0] == userId) {
                                                 if (message[i][1].includes("http://res.cloudinary.com/dz1k6vz7m/image/upload/v1")) {
                                                     const messageItem1 = document.createElement('li');
                                                     messageItem1.setAttribute('class', 'clearfix');
@@ -788,15 +788,15 @@
                         chatForm.addEventListener('submit', (e) => {
                             e.preventDefault(); // this will prevent action submiting the form when you click submit button 
                             var message = chatMes.value;
-                            socket.emit('send-notification-to-server', { senderID: userID, friendid: friendid, message: message, sender: username });
-                            socket.emit('chat-message', { userID: userID, friendid: friendid, message: message });
+                            socket.emit('send-notification-to-server', { senderID: userId, friendid: friendid, message: message, sender: username });
+                            socket.emit('chat-message', { userId: userId, friendid: friendid, message: message });
                             chatMes.value = '';
 
                         })
 
                         const textMessage = document.querySelector('#text-message');
                         socket.on('chat-reply', (data) => {
-                            if (data.userID == userID) {
+                            if (data.userId == userId) {
 
                                 if (data.message.includes("http://res.cloudinary.com/dz1k6vz7m/image/upload/v1")) {
                                     const messageItem1 = document.createElement('li');
@@ -864,7 +864,7 @@
                         // this functions helps redirect to route /videocall/:friendid when click to camera
                         function gotoVideoCallPage(friendid) {
                             var url = "/videocall/" + friendid + "/" + roomID;
-                            socket.emit('call-video', { friendID: friendid, reciever_name: nameFriendChatting.textContent, callerID: userID, caller_name: username });
+                            socket.emit('call-video', { friendID: friendid, reciever_name: nameFriendChatting.textContent, callerID: userId, caller_name: username });
                             socket.emit('leave', { roomID: roomID });
                             window.location.href = url;
                         }
@@ -872,7 +872,7 @@
                         socket.on('updateUserStatus', data => {
                             if (data !== {}) {
                                 for (let i = 0; i < friend.length; i++) {
-                                    if (friend[i].userID == data.userID) {
+                                    if (friend[i].userId == data.userId) {
                                         if (data.status == 'on') {
                                             status[i].innerHTML = "<i class='fa fa-circle online'></i> Online";
                                         } else {
@@ -885,7 +885,7 @@
                         })
 
                         socket.on('send-notification-to-friend', data => {
-                            if (data.friendid == userID) {
+                            if (data.friendid == userId) {
                                 if (data.senderID != friendid) {
                                     let message = '';
                                     if (data.message.includes("http://res.cloudinary.com/dz1k6vz7m/image/upload/v1")) {

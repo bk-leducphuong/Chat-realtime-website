@@ -49,7 +49,7 @@ export let login = async (req, res) => {
                 return res.send({ message: '0' });
             } else {
                 // create access token
-                const Atoken = jwt.sign({ id: data[0].user_id, username: data[0].username }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: process.env.ACCESS_TOKEN_EXPIRY });
+                const Atoken = jwt.sign({ userId: data[0].user_id, username: data[0].username }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: process.env.ACCESS_TOKEN_EXPIRY });
                 // store token in cookie so that people cant access token in brower using javascript 
                 await res.cookie('access_token', Atoken, {
                     httpOnly: true,
@@ -57,7 +57,7 @@ export let login = async (req, res) => {
                 })
 
                 // create refresh token 
-                const Rtoken = jwt.sign({ id: data[0].user_id, username: data[0].username }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: process.env.REFRESH_TOKEN_EXPIRY });
+                const Rtoken = jwt.sign({ userId: data[0].user_id, username: data[0].username }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: process.env.REFRESH_TOKEN_EXPIRY });
                 await res.cookie('refresh_token', Rtoken, {
                     httpOnly: true,
                     //secure: true;

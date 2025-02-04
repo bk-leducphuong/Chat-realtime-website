@@ -1,0 +1,79 @@
+<div class="notification-popup" style="display:none;">
+    <div class="notification-header">
+        <p class="content-header"><strong>New message</strong></p>
+        <img class="close-notification" src="https://cdn-icons-png.flaticon.com/512/9974/9974058.png"></img>
+    </div>
+    <div class="notification-container">
+        <img src="https://res.cloudinary.com/dz1k6vz7m/image/upload/v1677151149/avatar/avatar7_qycgpo.png" alt
+            class="avatar-notification"></img>
+        <div class="content-notification">
+            <p class="notification-friend"><strong class="sender"></strong></p>
+            <p style="font-size:13px ;" class="content-message"></p>
+        </div>
+    </div>
+</div>
+<style>
+    .notification-popup {
+        width: 350px;
+        height: 100px;
+        background-color: #87CEFA;
+        position: fixed;
+        bottom: 50px;
+        right: 20px;
+        border-radius: 10px;
+        padding: 5px 10px 10px 10px;
+        cursor: pointer;
+        z-index: 9998;
+    }
+
+    .notification-header {
+        padding: 0px 0px 0px 0px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 8px;
+    }
+
+    .content-header {
+        margin: 0px 0px 0px 0px;
+        font-size: 15px;
+    }
+
+    .close-notification {
+        width: 25px;
+        cursor: pointer;
+        display: flex;
+    }
+
+    .avatar-notification {
+        width: 50px;
+        height: 50px;
+        border-radius: 60px;
+    }
+
+    .notification-container {
+        display: flex;
+    }
+
+    p {
+        margin: 0px 0px 0px 0px;
+    }
+
+    .content-notification {
+        padding-left: 15px;
+        width: 260px;
+    }
+
+    .notification-friend {
+        font-size: 16px;
+    }
+</style>
+<script type="text/javascript">
+    const sender = document.querySelector('.sender');
+    const notification_popup = document.querySelector('.notification-popup');
+    const message_notification = document.querySelector('.content-message');
+    const close_notification = document.querySelector('.close-notification');
+    close_notification.addEventListener('click', () => {
+        notification_popup.style.display = "none";
+    })
+</script>
