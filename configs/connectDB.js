@@ -1,15 +1,21 @@
-// import mysql from 'mysql2';
-// import dotenv from 'dotenv';
-// dotenv.config();
+import mysql from 'mysql2/promise';
+import dotenv from 'dotenv';
+dotenv.config();
 
-// // create the connection to database
-// const connection = mysql.createConnection({
-//     host: process.env.MYSQLHOST || 'localhost',
-//     user: process.env.MYSQLUSER || 'root',
-//     password: process.env.MYSQLPASSWORD || '19122004',
-//     database: process.env.MYSQLDATABASE || 'databasenodejs',
-//     port: process.env.MYSQLPORT || '3036'
-// }).promise(); // mysql2 cung cấp .promise() function giúp đảm bảo code đc chạy theo đúng trình tự 
+const connectDB = async () => {
+    try {
+        const connection = await mysql.createConnection({
+            host: process.env.DB_HOST,
+            user: process.env.DB_USER,
+            password: process.env.DB_PASSWORD,
+            database: process.env.DB_NAME
+        });
+        console.log('Database connected successfully');
+        return connection;
+    } catch (error) {
+        console.error('Database connection failed:', error);
+        throw error;
+    }
+};
 
-
-// export default connection;
+export default connectDB;

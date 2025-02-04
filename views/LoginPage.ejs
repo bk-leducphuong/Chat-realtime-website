@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat app realtime</title>
+    <link rel="icon" type="image/x-icon" href="styleForStartPage/img/icons8-speech-bubble-100.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300&family=Poppins:wght@700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: cornflowerblue;
+            overflow: hidden;
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .parent {
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .login-box {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .close-btn {
+            position: absolute;
+            right: 15px;
+            cursor: pointer;
+            width: 15px;
+        }
+
+        .login {
+            font-size: 59px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .email-imput, .password-input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .submit-row {
+            margin-top: 20px;
+        }
+
+        .submit-row button {
+            width: 100%;
+            padding: 10px;
+            background-color: #ff8000;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .submit-row button:hover {
+            background-color: #e67300;
+        }
+
+        .form-check {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .form-check input {
+            margin-right: 10px;
+        }
+
+        .login-box-seperator-container {
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+        }
+
+        .login-box-seperator {
+            flex: 1;
+            height: 1px;
+            background-color: #ccc;
+        }
+
+        .login-box-seperator-text {
+            margin: 0 10px;
+            color: #ccc;
+        }
+
+        .social-login-link {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            margin: 10px 0;
+            background-color: #f1f1f1;
+            border-radius: 5px;
+            text-decoration: none;
+            color: black;
+        }
+
+        .social-login-link i {
+            margin-right: 20px;
+        }
+
+        .login-box-footer {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .login-box-footer a {
+            color: #ff8000;
+            text-decoration: none;
+        }
+
+        #alert-popup {
+            position: fixed;
+            right: 10px;
+            bottom: 10px;
+            display: none;
+            z-index: 9999;
+        }
+
+        .new-message-box {
+            background-color: #FF6F00;
+            padding: 10px;
+            border-radius: 5px;
+            color: white;
+            display: flex;
+            align-items: center;
+        }
+
+        .new-message-box p {
+            margin: 0;
+            font-size: 16px;
+        }
+    </style>
+</head>
+
+<body>
+    <form method="post" action="/login">
+        <div class="parent">
+            <div class="login-box">
+                <hr style="width: 100%; margin-bottom: 3px; margin-top: 0px;">
+                <div class="email-login">
+                    <a href="/"> <img class="close-btn" src="https://cdn-icons-png.flaticon.com/512/2976/2976286.png"></a>
+                    <span class="login">Login</span>
+                    <input type="email" class="email-imput" required placeholder="Email" minlength="6" id="email" name="email">
+                    <input type="password" class="password-input" required placeholder="Password" minlength="6" id="password" name="password">
+                </div>
+                <div class="submit-row">
+                    <button type="submit" id="submit-id-submit">Login</button>
+                    <div class="form-check">
+                        <input type="checkbox" id="formCheck-1" name="check">
+                        <label for="formCheck-1">Remember me</label>
+                    </div>
+                    <a id="forgot-password-link" href="">Forgot password?</a>
+                </div>
+                <div class="login-box-seperator-container">
+                    <div class="login-box-seperator"></div>
+                    <div class="login-box-seperator-text">Or login using</div>
+                    <div class="login-box-seperator"></div>
+                </div>
+                <div class="login-box-content">
+                    <div class="fb-login">
+                        <a class="social-login-link" href="/auth/facebook">
+                            <i class="fa fa-facebook"></i>Login with Facebook
+                        </a>
+                    </div>
+                    <div class="gp-login">
+                        <a class="social-login-link" href="/auth/google">
+                            <i class="fa fa-google"></i>Login with Google
+                        </a>
+                    </div>
+                </div>
+                <div class="login-box-footer">
+                    <a href="/signup-form">Have not account yet? Sign up</a>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div id="alert-popup">
+        <div class="new-message-box">
+            <p>Email hoặc mật khẩu không chính xác !</p>
+        </div>
+    </div>
+    <script>
+        const submit_btn = document.querySelector('#submit-id-submit');
+        const email = document.querySelector('#email');
+        const password = document.querySelector('#password');
+        const alert_popup = document.querySelector('#alert-popup');
+
+        submit_btn.addEventListener('click', (event) => {
+            event.preventDefault();
+            const data = {
+                email: email.value,
+                password: password.value
+            }
+            fetch('login', {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.message == 0) {
+                        alert_popup.style.display = "block";
+                        setTimeout(() => {
+                            alert_popup.style.display = "none";
+                        }, 4000);
+                    } else if (data.message == 1) {
+                        window.location.href = '/home';
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        });
+    </script>
+</body>
+
+</html>

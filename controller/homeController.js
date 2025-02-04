@@ -5,7 +5,7 @@ import fs from 'fs';
 import { v2 as cloudinary } from 'cloudinary';
 
 export let getStartPage = async (req, res) => {
-    res.render('startPage.ejs');
+    res.render('WelcomePage.ejs');
 }
 
 export let redirectToHome = (req, res) => {
@@ -211,7 +211,7 @@ export let searchListFriend = async (req, res) => {
 
 // login form
 export let getLoginForm = (req, res) => {
-    return res.render('login_form.ejs')
+    return res.render('LoginPage.ejs')
 }
 
 export let getSignupForm = (req, res) => {

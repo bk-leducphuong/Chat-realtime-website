@@ -9,22 +9,6 @@ import { v4 as uuidv4 } from 'uuid';
 // import checkingUser from '../configs/connectDB_passportjs.js';
 // import connection from '../configs/connectDB.js';
 
-/****************** Redis connection ***********************/
-// import { createClient } from 'redis';
-
-// /* Connect to redis cloud */
-// const client = createClient({
-//     password: process.env.REDIS_PASSWORD,
-//     socket: {
-//         host: process.env.REDIS_HOST,
-//         port: process.env.REDIS_PORT
-//     },
-//     // legacyMode: true
-// });
-
-// client.on('error', err => console.log('Redis Client Error', err))
-// await client.connect();
-
 // Register a new User
 export let register = async (req, res) => {
     try {
