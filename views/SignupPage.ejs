@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat app realtime</title>
+    <link rel="icon" type="image/x-icon" href="styleForStartPage/img/icons8-speech-bubble-100.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300&family=Poppins:wght@700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: cornflowerblue;
+            overflow: hidden;
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .parent {
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .login-box {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .close-btn {
+            position: absolute;
+            right: 15px;
+            cursor: pointer;
+            width: 15px;
+        }
+
+        .login {
+            font-size: 59px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .email-imput, .password-input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .submit-row {
+            margin-top: 20px;
+        }
+
+        .submit-row button {
+            width: 100%;
+            padding: 10px;
+            background-color: #ff8000;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .submit-row button:hover {
+            background-color: #e67300;
+        }
+
+        .form-check {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .form-check input {
+            margin-right: 10px;
+        }
+
+        .login-box-seperator-container {
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+        }
+
+        .login-box-seperator {
+            flex: 1;
+            height: 1px;
+            background-color: #ccc;
+        }
+
+        .login-box-seperator-text {
+            margin: 0 10px;
+            color: #ccc;
+        }
+
+        .social-login-link {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            margin: 10px 0;
+            background-color: #f1f1f1;
+            border-radius: 5px;
+            text-decoration: none;
+            color: black;
+        }
+
+        .social-login-link i {
+            margin-right: 20px;
+        }
+
+        .login-box-footer {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .login-box-footer a {
+            color: #ff8000;
+            text-decoration: none;
+        }
+
+        #alert-popup, #success-popup, #error-popup {
+            position: fixed;
+            right: 10px;
+            bottom: 10px;
+            display: none;
+            z-index: 9999;
+        }
+
+        .new-message-box {
+            background-color: #FF6F00;
+            padding: 10px;
+            border-radius: 5px;
+            color: white;
+            display: flex;
+            align-items: center;
+        }
+
+        .new-message-box p {
+            margin: 0;
+            font-size: 16px;
+        }
+
+        .new-message-box-success {
+            background-color: #8BC34A;
+        }
+
+        .new-message-box-warning {
+            background-color: #FFEB3B;
+        }
+
+        .new-message-box-danger {
+            background-color: #f44336;
+        }
+    </style>
+</head>
+
+<body>
+    <form method="post" action="/sign-up">
+        <div class="parent">
+            <div class="login-box">
+                <hr style="width: 100%; margin-bottom: 3px; margin-top: 0px;">
+                <div class="email-login">
+                    <a href="/"> <img class="close-btn" src="https://cdn-icons-png.flaticon.com/512/2976/2976286.png"></a>
+                    <span class="login">Sign up</span>
+                    <input type="text" id="username" onkeyup="validateInput(this, 'username')" name="username" class="email-imput" required placeholder="What is your name ?" minlength="6">
+                    <input type="email" class="email-imput" onkeyup="validateInput(this, 'email')" required id="email" name="email" placeholder="Email" minlength="6">
+                    <input type="text" class="email-imput" onkeyup="validateInput(this, 'phone_number')" id="mobilenumber" name="mobilenumber" required placeholder="Phone number" minlength="6">
+                    <input type="password" class="password-input" onkeyup="validateInput(this, 'password')" id="password" name="password" required placeholder="Create password" minlength="6">
+                    <input type="password" class="password-input" onkeyup="checkPassword(this)" id="repeat_password" name="repeat_password" required placeholder="Repeat password" minlength="6">
+                </div>
+                <div class="submit-row">
+                    <button type="submit" id="submit-id-submit">Sign up</button>
+                </div>
+                <div class="login-box-seperator-container">
+                    <div class="login-box-seperator"></div>
+                    <div class="login-box-seperator-text">Or sign up using</div>
+                    <div class="login-box-seperator"></div>
+                </div>
+                <div class="login-box-content">
+                    <div class="fb-login">
+                        <a class="social-login-link" href="/auth/facebook">
+                            <i class="fa fa-facebook"></i>Sign up with Facebook
+                        </a>
+                    </div>
+                    <div class="gp-login">
+                        <a class="social-login-link" href="/auth/google">
+                            <i class="fa fa-google"></i>Sign up with Google
+                        </a>
+                    </div>
+                </div>
+                <div class="login-box-footer">
+                    <a href="/login-form">You already have an account? Login</a>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <!-- Alert Popups -->
+    <div id="alert-popup">
+        <div class="new-message-box new-message-box-alert">
+            <p>Thông tin không hợp lệ vui lòng nhập lại !</p>
+        </div>
+    </div>
+    <div id="success-popup">
+        <div class="new-message-box new-message-box-success">
+            <p>Verify link đã được gửi tới email của bạn, vui lòng kiểm tra !</p>
+        </div>
+    </div>
+    <div id="error-popup">
+        <div class="new-message-box new-message-box-warning">
+            <p>Something error, please contact us!</p>
+        </div>
+    </div>
+
+    <script>
+        const username = document.querySelector('#username');
+        const password = document.querySelector('#password');
+        const email = document.querySelector('#email');
+        const phonenumber = document.querySelector('#mobilenumber');
+        const repeat_password = document.querySelector('#repeat_password');
+        const submit_btn = document.querySelector('#submit-id-submit');
+        const alert_popup = document.querySelector('#alert-popup');
+        const success_popup = document.querySelector('#success-popup');
+        const error_popup = document.querySelector('#error-popup');
+        const content_alert = document.querySelector('.content-alert');
+
+        submit_btn.addEventListener('click', (event) => {
+            event.preventDefault();
+            if (username.style.border === "2px solid red" || email.style.border === "2px solid red" || phonenumber.style.border === "2px solid red" || password.style.border === "2px solid red" || repeat_password.style.border === "2px solid red") {
+                alert_popup.style.display = "block";
+                setTimeout(() => {
+                    alert_popup.style.display = "none";
+                }, 4000);
+            } else {
+                const data = {
+                    username: username.value,
+                    email: email.value,
+                    mobilenumber: phonenumber.value,
+                    password: password.value
+                }
+                fetch('sign-up', {
+                    method: 'POST',
+                    body: JSON.stringify(data),
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                }).then(response => response.json()).then(data => {
+                    if (data.message === '1') {
+                        success_popup.style.display = "block";
+                        
+                        fetch('login', {
+                            method: 'POST',
+                            body: JSON.stringify({ email: email.value, password: password.value }),
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                        }).then(response => response.json()).then(data => {
+                            if (data.message === '1') {
+                                window.location.href = '/home';
+                            }
+                        });
+
+                        setTimeout(() => {
+                            success_popup.style.display = "none";
+                        }, 4000);
+                    } else if (data.message === '0') {
+                        alert_popup.style.display = "block";
+                        setTimeout(() => {
+                            alert_popup.style.display = "none";
+                        }, 4000);
+                    } else {
+                        error_popup.style.display = "block";
+                        setTimeout(() => {
+                            error_popup.style.display = "none";
+                        }, 4000);
+                    }
+                });
+            }
+        });
+
+        function validateInput(e, message) {
+            if (message === "password") {
+                if (e.value !== repeat_password.value) {
+                    repeat_password.setAttribute('title', 'Mật khẩu không khớp !');
+                    repeat_password.style.border = "2px solid red";
+                }
+            }
+            fetch('validate', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ payload: e.value, message: message })
+            }).then(res => res.json()).then(data => {
+                if (data.message === "invalid") {
+                    if (message === "username") {
+                        username.setAttribute('title', 'Tên phải chứa ít nhất 3 kí tự và tối đa là 30 kí tự !');
+                        username.style.border = "2px solid red";
+                    }
+                    if (message === "email") {
+                        email.setAttribute('title', 'Email phải có đuôi là .com hoặc .net !');
+                        email.style.border = "2px solid red";
+                    }
+                    if (message === "phone_number") {
+                        phonenumber.setAttribute('title', 'Số điện thoại phải là 10 số !');
+                        phonenumber.style.border = "2px solid red";
+                    }
+                    if (message === "password") {
+                        password.setAttribute('title', 'Mật khẩu quá ngắn !');
+                        password.style.border = "2px solid red";
+                    }
+                } else {
+                    if (message === "username") {
+                        username.setAttribute('title', 'Hợp lệ !');
+                        username.style.border = "2px solid #00FF00";
+                    }
+                    if (message === "email") {
+                        email.setAttribute('title', 'Hợp lệ !');
+                        email.style.border = "2px solid #00FF00";
+                    }
+                    if (message === "phone_number") {
+                        phonenumber.setAttribute('title', 'Hợp lệ !');
+                        phonenumber.style.border = "2px solid #00FF00";
+                    }
+                    if (message === "password") {
+                        password.setAttribute('title', 'Hợp lệ !');
+                        password.style.border = "2px solid #00FF00";
+                    }
+                }
+            });
+        }
+
+        function checkPassword(e) {
+            if (e.value === password.value) {
+                repeat_password.setAttribute('title', 'Hợp lệ !');
+                repeat_password.style.border = "2px solid #00FF00";
+            } else {
+                repeat_password.setAttribute('title', 'Mật khẩu không khớp !');
+                repeat_password.style.border = "2px solid red";
+            }
+        }
+    </script>
+</body>
+
+</html>

@@ -1,6 +1,6 @@
 import { createClient } from 'redis';
 
-const client = createClient({
+const redisClient = createClient({
     username: 'default',
     password: 'VLdTU7ULa9qGNCHm1t80qO9wEE3OMw1t',
     socket: {
@@ -9,9 +9,9 @@ const client = createClient({
     }
 });
 
-client.on('error', err => console.log('Redis Client Error', err));
+redisClient.on('error', err => console.log('Redis Client Error', err));
 
-await client.connect();
+await redisClient.connect();
 
-export default client;
+export default redisClient;
 

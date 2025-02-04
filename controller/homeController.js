@@ -13,9 +13,7 @@ export let redirectToHome = (req, res) => {
 }
 
 export let getHomePage = (req, res) => {
-    const Rtoken = req.cookies.refresh_token;
-    const RPayload = jwt.verify(Rtoken, process.env.TOKEN_SECRET);
-    return res.render('home.ejs', { userID: RPayload.id });
+    return res.render('home.ejs', { userID: req.user.userId });
 }
 
 export let getProfileUser = async (req, res) => {
@@ -215,7 +213,7 @@ export let getLoginForm = (req, res) => {
 }
 
 export let getSignupForm = (req, res) => {
-    return res.render('signupForm.ejs')
+    return res.render('SignupPage.ejs')
 }
 
 export let logout = (req, res) => {
